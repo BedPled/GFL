@@ -38,7 +38,20 @@ class graph {
     arc* head;
     node* nodes;
 
+
+    int countNode () {
+        node* helpNode = nodes;
+        int count = 0;
+        while (helpNode != nullptr) {
+            count++;
+            helpNode = helpNode->next;
+        }
+        return count;
+    }
+
+
 public:
+
 
     graph() {
         head = nullptr;
@@ -90,27 +103,62 @@ public:
     }
 
     node *addNode(int name) {
+//        if (name >= 0) {
+//            node* help = nodes;
+//            node* helpPrev;
+//
+//            while (help != nullptr) { // проверка, что ноты ещё нет
+//                if (help->name == name) {
+//                    return nullptr;
+//                }
+//
+//                helpPrev = help;
+//                help = help->next;
+//            }
+//
+//            help = new node(name);
+//            if (nodes != nullptr) {
+//                helpPrev->next = help;
+//            } else {
+//                nodes = help;
+//            }
+//
+//            return help;
+//        } else {
+//            return nullptr;
+//        }
         if (name >= 0) {
-            node* help = nodes;
-            node* helpPrev;
+            if (nodes == nullptr) {
+                nodes = new node(name);
+                return nodes;
+            }  else {
+                // упорядоченная вставка
+                node* prevHelp = nullptr;
+                node* help = nodes;
 
-            while (help != nullptr) { // проверка, что ноты ещё нет
-                if (help->name == name) {
+                while (help != nullptr && help->name < name) { // идём по nodeOut
+                    prevHelp = help;
+                    help = help->next;
+                }
+
+
+                // head смотрит на следующий элемент, после вставляемого
+                if (help != nullptr  && help->name == name) {
+                    std::cout << "Node " << name << " already exist" << std::endl;
                     return nullptr;
                 }
 
-                helpPrev = help;
-                help = help->next;
-            }
+                node* newNode = new node(name);
 
-            help = new node(name);
-            if (nodes != nullptr) {
-                helpPrev->next = help;
-            } else {
-                nodes = help;
-            }
+                if (prevHelp == nullptr) {
+                    nodes = newNode;
+                } else {
+                    prevHelp->next = newNode;
+                }
 
-            return help;
+                newNode->next = help;
+                return newNode;
+            }
         } else {
             return nullptr;
         }
@@ -416,15 +464,52 @@ public:
 
         while (helpNode != nullptr) {
             if (helpNode->p != nullptr) {
-                std::cout << helpNode->name << " p: " << helpNode->p->name;
+                std::cout << helpNode->name << " p: " << helpNode->p->name << "     f:  " << helpNode->f;
             } else {
-                std::cout << helpNode->name << " p: null";
+                std::cout << helpNode->name << " p: null" << "  f:  " <<  helpNode->f;
             }
             std::cout << std::endl;
             helpNode = helpNode->next;
         }
 
-        std::cout << std::endl;std::cout << std::endl;
+        std::cout << std::endl;
+
+        //сильные компоненты
+        node *n1[countNode()];
+
+
+        node* h= gt.nodes;
+
+        for (int i = 0; i < countNode(); ++i) {
+            n1[i] = h;
+            h = h->next;
+        }
+
+        //сортировка :)
+
+        for (int i = 0; i < countNode()-1; i++)
+            for (int j = 0; j < countNode()-i-1; j++)
+                if (n1[j]->f > n1[j+1]->f) {
+                    node temp = *n1[j];
+                    *n1[j] = *n1[j+1];
+                    *n1[j+1] = temp;
+                }
+
+
+        for (int i = 0; i < countNode(); ++i) {
+
+            if (n1[i]->p != nullptr) {
+                std::cout << n1[i]->name;
+            } else {
+                std::cout << n1[i]->name;
+            }
+            std::cout << std::endl;
+            if (i + 1 < countNode()) {
+                if (n1[i]->d < n1[i + 1]->d) {
+                    std::cout << std::endl;
+                }
+            }
+        }
     }
 
 
