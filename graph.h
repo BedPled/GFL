@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <queue>
 
 #ifndef GRAPHFORLAZARENCO_GRAPH_H
 #define GRAPHFORLAZARENCO_GRAPH_H
@@ -22,6 +23,10 @@ struct node {
     int d;
     int f;
 
+    int metka = 0; // 0 - непомечена // 1 - пройдена непомечена // 2 - пройдена
+    node *link = nullptr;
+    node *helpLink = nullptr;
+
     node(int name) : name(name) {}
 };
 
@@ -29,6 +34,8 @@ struct arc {
     arc* next = nullptr;
     node* nodeOut = nullptr;
     node* nodeIn = nullptr;
+
+    int metka = 0; // 0 - непомечена // 1 - пройдена
 
     arc(node *nodeOut, node *nodeIn) : nodeOut(nodeOut), nodeIn(nodeIn) {}
 };
@@ -512,6 +519,126 @@ public:
         }
     }
 
+    arc *fist(node *p) {
+        arc* prevHelp = nullptr;
+        arc* help = head;
+
+        while (help != nullptr && help->nodeOut->name < p->name) { // идём по nodeOut
+            prevHelp = help;
+            help = help->next;
+        }
+        return help;
+    }
+
+
+    void BFS (node *p) {
+        std::queue<node *> Q;
+        Q.push(p);
+        std::cout << p->name << " ";
+        p->metka = 1;
+        node *q = nullptr;
+        arc *w = nullptr;
+
+        while (Q.size() != 0) {
+            q = Q.front();
+            Q.pop();
+            w = fist(q);
+            while (w != nullptr) {
+                w->metka = 1;
+                p = w->nodeIn;
+                if (p->metka == 0) {
+                    p->metka = 1;
+                    Q.push(p);
+                    std::cout << p->name << " ";
+                }
+                if (w->next->nodeOut == w->nodeOut) {
+                    w = w->next;
+                } else {
+                    w = nullptr;
+                }
+            }
+            q->metka = 2;
+        }
+
+
+    }
+
+
+//    arc *link(node *p) { // следующая дуга
+//        //arc* prevHelp = nullptr;
+//        arc* help = head;
+//
+//        while (help != nullptr && help->nodeOut->name < p->name) { // идём по nodeOut
+//            help = help->next;
+//        }
+//        if(help == nullptr) {
+//            return nullptr;
+//        }
+//
+//        if (p->helpLink == nullptr) {
+//            p->helpLink = help->nodeIn;
+//            return help;
+//        }
+//
+//        while (help != nullptr && help->nodeOut->name == p->name && help->nodeIn->name <= p->helpLink->name) {
+//            help = help->next;
+//        }
+//
+//        if (help->nodeOut->name == p->name && help->nodeIn->name > p->helpLink->name) {
+//            p->helpLink = help->nodeIn;
+//            return help;
+//        } else {
+//            p->helpLink = nullptr;
+//            return nullptr;
+//        }
+//
+//    }
+//
+//    void BFS(node *p) {
+//        node *helpNode = nodes;
+//
+//        while (helpNode != nullptr) {
+//            link(helpNode);
+//
+//            helpNode = helpNode->next;
+//        }
+//
+//
+//        node *f = p;
+//        node *v = p;
+//        p->metka = 1;
+//        node *e;
+//        node *q;
+//        arc *a;
+//
+//        do {
+//
+//            f->link = link(f)->nodeIn;
+//            f = f->link;
+//        } while (f != nullptr);
+//
+//        while (v != nullptr) {
+//            e = v;
+//            while (e->link != nullptr) {
+//                a = link(e);
+//                e = a->nodeIn;
+//                a->metka = 1;
+//                q = a->nodeIn;
+//                if (q->metka == 0) {
+//                    f->link = q;
+//                    f = q;
+//                    q->metka = 1;
+//
+//                    while (f->link != nullptr) {
+//                        link(f);
+//                    }
+//                }
+//            }
+//            v->metka = 2;
+//            v = e->link;
+//            e->link = nullptr;
+//        }
+//    }
 
 };
 
