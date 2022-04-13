@@ -467,17 +467,21 @@ public:
 
 
 
-        node* helpNode = gt.nodes;
+//        node* helpNode = gt.nodes;
+//
+//        while (helpNode != nullptr) {
+//            if (helpNode->p != nullptr) {
+//                std::cout << helpNode->name << " p: " << helpNode->p->name << "     f:  " << helpNode->f << "  d: " << helpNode->d;
+//            } else {
+//                std::cout << helpNode->name << " p: null" << "  f:  " <<  helpNode->f << "  d: " << helpNode->d;
+//            }
+//            std::cout << std::endl;
+//            helpNode = helpNode->next;
+//        }
 
-        while (helpNode != nullptr) {
-            if (helpNode->p != nullptr) {
-                std::cout << helpNode->name << " p: " << helpNode->p->name << "     f:  " << helpNode->f;
-            } else {
-                std::cout << helpNode->name << " p: null" << "  f:  " <<  helpNode->f;
-            }
-            std::cout << std::endl;
-            helpNode = helpNode->next;
-        }
+        //--
+
+        //--
 
         std::cout << std::endl;
 
@@ -505,14 +509,22 @@ public:
 
         for (int i = 0; i < countNode(); ++i) {
 
+//            if (helpNode->p != nullptr) {
+//                std::cout << helpNode->name << " p: " << helpNode->p->name << "     f:  " << helpNode->f << "  d: " << helpNode->d;
+//            } else {
+//                std::cout << helpNode->name << " p: null" << "  f:  " <<  helpNode->f << "  d: " << helpNode->d;
+//            }
+
             if (n1[i]->p != nullptr) {
-                std::cout << n1[i]->name;
+                //std::cout << n1[i]->name;
+                std::cout << n1[i]->name << " p: " << n1[i]->p->name << "     f:  " << n1[i]->f << "  d: " << n1[i]->d;
             } else {
-                std::cout << n1[i]->name;
+                //std::cout << n1[i]->name;
+                std::cout << n1[i]->name << " p: null" << "  f:  " <<  n1[i]->f << "  d: " << n1[i]->d;
             }
             std::cout << std::endl;
             if (i + 1 < countNode()) {
-                if (n1[i]->d < n1[i + 1]->d) {
+                if (n1[i]->d < n1[i + 1]->d && n1[i]->p == nullptr) {
                     std::cout << std::endl;
                 }
             }
