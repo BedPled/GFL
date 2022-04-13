@@ -173,7 +173,7 @@ public:
 
     int delNode(int name) {
         if (name < 0) {
-            std::cout << "Invalid node name " << std::endl;
+            std::cout << "Invalid node name 1" << std::endl;
             return false;
         }
 
@@ -186,7 +186,7 @@ public:
 
         arc* helpArc = head;
 
-        while (helpArc != nullptr) {
+        while (helpArc->next != nullptr) {
             delArc(helpArc->nodeOut->name, name);
             delArc(name, helpArc->nodeIn->name);
             helpArc = helpArc->next;
@@ -240,7 +240,7 @@ public:
     int addArc(int out, int in) { //
 
         if (out < 0 || in < 0) {
-            std::cout << "Invalid node name" << std::endl;
+            std::cout << "Invalid node name 2" << std::endl;
             return -1;
         }
 
@@ -307,7 +307,7 @@ public:
     int delArc(int out, int in){
 
         if (out < 0 || in < 0) {
-            std::cout << "Invalid node name" << std::endl << std::endl;
+            //std::cout << "Invalid node name 3" << std::endl << std::endl;
             return -1;
         }
 
@@ -315,12 +315,12 @@ public:
         node *nodeIn = getNode(in);
 
         if (nodeOut == nullptr) {
-            std::cout << "Node " << out << " dose not exist" << std::endl;
+            //std::cout << "Node " << out << " dose not exist" << std::endl;
             return false;
         }
 
         if (nodeIn == nullptr) {
-            std::cout << "Node " << in << " dose not exist" << std::endl;
+            //std::cout << "Node " << in << " dose not exist" << std::endl;
             return false;
         }
 
@@ -357,7 +357,7 @@ public:
                 return 1;
             }
 
-            std::cout << "Arc " << out<< " --> " << in << " dose not exist" << std::endl;
+            //std::cout << "Arc " << out<< " --> " << in << " dose not exist" << std::endl;
             return 0;
         }
 
@@ -365,7 +365,7 @@ public:
 
     bool searchArc(int out, int in) {
         if (out < 0 || in < 0) {
-            std::cout << "Invalid node name" << std::endl;
+            std::cout << "Invalid node name 4" << std::endl;
             return false;
         }
 
